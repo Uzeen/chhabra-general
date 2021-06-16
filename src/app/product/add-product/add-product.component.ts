@@ -26,7 +26,7 @@ export class AddProductComponent implements OnInit {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Success',
-      message: `Product {data} Created`,
+      message: `Product ${data} Created`,
       buttons: ['OK']
     });
     await alert.present();
