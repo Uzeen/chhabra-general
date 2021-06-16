@@ -9,13 +9,13 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <div class="ion-padding">
+  <form class="ion-padding" [formGroup]="productForm">
     <ion-card>
       <ion-card-content>
         <div style="display: flex;justify-content: space-between;">
         <ion-item>
             <ion-label position="floating">Barcode</ion-label>
-          <ion-input></ion-input>
+          <ion-input formControlName="id" inputmode="text"></ion-input>
         </ion-item>
         <ion-fab-button 
         size="small"
@@ -30,7 +30,7 @@
       <ion-card-content>
         <ion-item>
           <ion-label position="floating">Name :</ion-label>
-          <ion-input></ion-input>
+          <ion-input formControlName="Name" inputmode="text"></ion-input>
         </ion-item>
       </ion-card-content>
     </ion-card>
@@ -38,14 +38,14 @@
       <ion-card-content>
         <ion-item>
           <ion-label position="floating">Price :</ion-label>
-          <ion-input></ion-input>
+          <ion-input formControlName="Price" inputmode="text"></ion-input>
         </ion-item>
       </ion-card-content>
     </ion-card>
     <ion-card>
       <ion-card-content>
-        <ion-button expand="full" color="success">Create</ion-button>
+        <ion-button expand="full"  (click)="addProduct()" color="success">Create</ion-button>
       </ion-card-content>
     </ion-card>
-  </div>
+  </form>
 </ion-content>

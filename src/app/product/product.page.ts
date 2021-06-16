@@ -11,8 +11,12 @@ import { ProductService } from './product.service';
 export class ProductPage implements OnInit {
 
   constructor(public modalController: ModalController,private productService:ProductService) { }
-
+  searchBy = "Barcode";
+  finalProductList = [];
+  filteredProductList = []
   ngOnInit() {
+    this.finalProductList =  this.productService.product;
+    this.filteredProductList =  this.productService.product;
     this.productService.modal.subscribe((data)=>{
       this.close();
     })
@@ -27,6 +31,22 @@ export class ProductPage implements OnInit {
 
   close(){
     this.modalController.dismiss();
+  }
+
+  changeSearchMode(event){
+    this.searchBy == "Barcode" ? this.searchBy = "Name" : this.searchBy = "Barcode";
+  }
+
+  filterProduct(data){
+    let check = "";
+    let filteredList = [];
+    this.searchBy == "Barcode" ? check = "id" : check = "Name";
+    this.finalProductList.forEach(element=>{
+      if(element[check].toLowerCase().startsWith(data.value.toLowerCase())){
+        filteredList.push(element);
+      }
+    });
+    this.filteredProductList = filteredList;
   }
 
 }
