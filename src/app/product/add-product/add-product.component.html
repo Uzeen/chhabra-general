@@ -50,11 +50,6 @@
   </form>
 </ion-content>
 
-<barcode-scanner-livestream
-      type="code_128"
-      (valueChanges)="onValueChanges($event)"
-      (started)="(onStarted($event))"
-    ></barcode-scanner-livestream>
-    <div>
-     Barcode {{ barcodeValue }}
+<div id="interactive" class="viewport">
+  <!-- QuaggaJS will populate this element -->
 </div>
