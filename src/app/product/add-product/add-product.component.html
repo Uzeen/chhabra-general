@@ -21,7 +21,7 @@
         size="small"
         color="primary"
         style="align-self: center;">
-        <ion-icon name="scan-circle-outline"></ion-icon>
+        <ion-icon (click)="scan()" name="scan-circle-outline"></ion-icon>
         </ion-fab-button>
         </div>
       </ion-card-content>
@@ -49,3 +49,12 @@
     </ion-card>
   </form>
 </ion-content>
+
+<barcode-scanner-livestream
+      type="code_128"
+      (valueChanges)="onValueChanges($event)"
+      (started)="(onStarted($event))"
+    ></barcode-scanner-livestream>
+    <div>
+     Barcode {{ barcodeValue }}
+</div>

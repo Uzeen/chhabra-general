@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductService } from '../product.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
 import { AlertController } from '@ionic/angular';
+import { BarcodeScannerLivestreamComponent } from "ngx-barcode-scanner";
 
 @Component({
   selector: 'app-add-product',
@@ -35,6 +36,26 @@ export class AddProductComponent implements OnInit {
   addProduct(){
     this.ps.product.push(this.productForm.value)
     this.presentAlert(this.productForm.value.Name);
+  }
+
+  @ViewChild(BarcodeScannerLivestreamComponent)
+  barcodeScanner: BarcodeScannerLivestreamComponent;
+ 
+  barcodeValue;
+ 
+  scan(){
+    this.barcodeScanner.start();
+    alert("Starting");
+  }
+ 
+  onValueChanges(result) {
+    this.barcodeValue = result.codeResult.code;
+    alert(result.codeResult.code);
+    
+  }
+ 
+  onStarted(started) {
+    console.log(started);
   }
 
 }
