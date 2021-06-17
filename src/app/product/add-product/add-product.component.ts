@@ -2,7 +2,8 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ProductService } from '../product.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
 import { AlertController } from '@ionic/angular';
-import Quagga from 'quagga';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+
 
 
 @Component({
@@ -10,7 +11,7 @@ import Quagga from 'quagga';
   templateUrl: './add-product.component.html',
   styleUrls: ['./add-product.component.scss'],
 })
-export class AddProductComponent implements OnInit,AfterViewInit {
+export class AddProductComponent implements OnInit {
 
   productForm = this.formBuilder.group({
     Name : new FormControl(null),
@@ -19,7 +20,8 @@ export class AddProductComponent implements OnInit,AfterViewInit {
   });
   constructor(private ps: ProductService,
     public formBuilder: FormBuilder,
-    public alertController: AlertController) { }
+    public alertController: AlertController,
+    private barcodeScanner: BarcodeScanner) { }
 
   ngOnInit() {
   }
@@ -39,40 +41,12 @@ export class AddProductComponent implements OnInit,AfterViewInit {
     this.presentAlert(this.productForm.value.Name);
   }
 
-  scan(data){
-    alert(data);
+  scan(){
+    this.barcodeScanner.scan().then(barcodeData => {
+      console.log('Barcode data', barcodeData);
+      alert(barcodeData);
+     }).catch(err => {
+         console.log('Error', err);
+     });
   }
-
-  errorMessage: string;
-  ngAfterViewInit(): void {
-    Quagga.init({
-      inputStream: {
-        constraints: {
-          facingMode: 'environment' // restrict camera type
-        },
-        area: { // defines rectangle of the detection
-          top: '40%',    // top offset
-          right: '0%',  // right offset
-          left: '0%',   // left offset
-          bottom: '40%'  // bottom offset
-        },
-      },
-      decoder: {
-        readers: ['ean_reader'] // restrict code types
-      },
-    },
-    (err) => {
-      if (err) {
-        this.errorMessage = `QuaggaJS could not be initialized, err: ${err}`;
-      } else {
-        Quagga.start();
-        Quagga.onDetected((res) => {
-          window.alert(`code: ${res.codeResult.code}`);
-        })
-      }
-    });  
-  }
-
-    
-
 }
